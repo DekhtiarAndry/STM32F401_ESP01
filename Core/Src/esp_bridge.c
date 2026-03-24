@@ -9,7 +9,7 @@ static void esp_send_raw(const uint8_t *data, uint16_t len);
 
 // Глобальні змінні, які вже оголошені у .h файлі
 const char* name_wifi = "Fox";
-const char* password = "0685652120";
+const char* password = "*******";
 
 #define ESP_DMA_RX_SIZE 1024
 uint8_t esp_dma_rx_buf[ESP_DMA_RX_SIZE] = {0};
@@ -116,9 +116,7 @@ void esp_process_data(uint8_t* data, uint16_t len)
 
             // Генерація HTML-сторінки з поточними даними
             // Тиск перетворюємо в гектопаскалі (hPa), розділивши на 100
-//            int page_len = snprintf(http_page, sizeof(http_page),
-//                                    page_template,
-//                                    Temperature, Humidity, Pressure / 100.0f, Altitude);
+                            Temperature, Humidity, Pressure / 100.0f, Altitude);
             int page_len = snprintf(http_page, sizeof(http_page),
                                     page_template,
                                     Temperature, Humidity, Pressure / 100.0f, Altitude,
@@ -156,66 +154,8 @@ void esp_process_data(uint8_t* data, uint16_t len)
     }
 }
 
-// Функція обробки даних, викликається з main
-//void esp_process_data(uint8_t* data, uint16_t len)
-//{
-//    // Друк отриманих даних для дебагу
-//    uart1_printf("--- Processing Packet (len: %d) ---\r\n", len);
-//    HAL_UART_Transmit(&huart1, data, len, 200);
-//    uart1_printf("\r\n--- End Packet ---\r\n");
-//
-//    // 1. Шукаємо IP-адресу у відповіді на AT+CIFSR
-//    char *cifsr_ip = (char*)memmem(data, len, "+CIFSR:STAIP,\"", 14);
-//    if (cifsr_ip) {
-//        cifsr_ip += 14; // Пропускаємо текст "+CIFSR:STAIP,""
-//        char *ip_end = strchr(cifsr_ip, '"');
-//        if (ip_end) {
-//            int ip_len = ip_end - cifsr_ip;
-//            uart1_printf("=====================================\r\n");
-//            uart1_printf(">>> ESP IP Address: %.*s\r\n", ip_len, cifsr_ip);
-//            uart1_printf("=====================================\r\n");
-//        }
-//    }
-//
-//    // 2. Шукаємо вхідний веб-запит "+IPD"
-//    char *ipd = (char*)memmem(data, len, "+IPD,", 5);
-//    if (ipd) {
-//        int conn_id = atoi(ipd + 5);
-//        char *data_start = strchr(ipd, ':');
-//        if (data_start) {
-//            data_start++; // Переходимо до початку HTTP-даних
-//
-//            // Керування світлодіодом
-//            if (memmem(data_start, len - (data_start - (char*)data), "GET /LED=ON", 11)) {
-//                HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-//                uart1_printf("Action: LED ON\r\n");
-//            } else if (memmem(data_start, len - (data_start - (char*)data), "GET /LED=OFF", 12)) {
-//                HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-//                uart1_printf("Action: LED OFF\r\n");
-//            }
-//
-//            // Формування та відправка HTML-сторінки
-//            const char http_page[] = "<!DOCTYPE html><html><body><h1>STM32 Control</h1><p><a href=\"/LED=ON\">LED ON</a></p><p><a href=\"/LED=OFF\">LED OFF</a></p></body></html>";
-//
-//
-//            const char http_header_template[] = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: %d\r\nConnection: close\r\n\r\n";
-//            char response[512];
-//            char header[128];
-//            snprintf(header, sizeof(header), http_header_template, (int)strlen(http_page));
-//            int response_len = snprintf(response, sizeof(response), "%s%s", header, http_page);
-//            char cmd[32];
-//            snprintf(cmd, sizeof(cmd), "AT+CIPSEND=%d,%d\r\n", conn_id, response_len);
-//            esp_send_at(cmd);
-//            HAL_Delay(100);
-//            HAL_UART_Transmit(&huart6, (uint8_t*)response, response_len, 1000);
-//            HAL_Delay(200);
-//            snprintf(cmd, sizeof(cmd), "AT+CIPCLOSE=%d\r\n", conn_id);
-//            esp_send_at(cmd);
-//        }
-//    }
-//}
 
-// Ваші допоміжні функції
+
 static void esp_send_at(const char *fmt, ...)
 {
   char buf[256];
