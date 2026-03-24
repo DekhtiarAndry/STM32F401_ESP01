@@ -1,0 +1,6 @@
+../Core/Src/esp_bridge.c:21:6:ESP_Bridge_Init	16	static
+../Core/Src/esp_bridge.c:52:6:ESP_Bridge_Process	8	static
+../Core/Src/esp_bridge.c:59:6:esp_process_data	2360	static
+../Core/Src/esp_bridge.c:219:13:esp_send_at	272	static
+../Core/Src/esp_bridge.c:231:6:uart1_printf	272	static
+../Core/Src/esp_bridge.c:241:7:memmem	32	static
